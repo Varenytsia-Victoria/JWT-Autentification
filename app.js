@@ -1,12 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/authRoutes')
-
+const cookieParser = require('cookie-parser')
 const app = express()
 
 app.use(express.static('public'))
 app.use(express.json())
 app.set('view engine', 'ejs')
+app.use(cookieParser())
 
 const dbURI =
 	'mongodb+srv://victoriavarenytsia:122333@auth.kz5nm.mongodb.net/?retryWrites=true&w=majority'

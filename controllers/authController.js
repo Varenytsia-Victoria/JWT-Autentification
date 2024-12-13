@@ -1,5 +1,5 @@
 const User = require('../models/User')
-
+const jwt = require('jsonwebtoken')
 
 const handleErrors = (err) => {
   console.log(err.message, err.code)
@@ -24,13 +24,23 @@ module.exports.login_get = (req, res) => {
 	res.render('login')
 }
 
+const createToken = (id) =>{
+  return jwt.sign({id}, 'q', {expiresIn: 3 * 24 * 60 * 60})
+}
+
 module.exports.signup_post = async (req, res) => {
 	const { email, password } = req.body
 
 	try {
 		const user = await User.create({ email, password })
-		res.status(201).json({ message: 'User created', user })
-	} catch (err) {
+    const token = createToken(user._id)
+    res.cookie('jwt', token, {httpOnly:true, maxAge: 3 * 24 * 60 * 60 * 1000})
+		res.status(201).json({ message: 'User created', user: user._id })
+
+    const data = await res.json({user: user._id})
+if (data) {
+  res.redirect('/smoothies')
+	} }catch (err) {
     const errors = handleErrors(err)
 		res.send(404).json({ errors })
 	}

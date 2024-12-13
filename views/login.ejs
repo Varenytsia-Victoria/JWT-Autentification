@@ -1,3 +1,23 @@
 <%- include('partials/header'); -%>
 
-<h1>Sign up</h1>
+<form>
+  <h2>Sign up</h2>
+  <label for="email">Email</label>
+  <input type="text" name="email" required>
+  <div class="email error"></div>
+
+   <label for="password">Password</label>
+  <input type="text" name="password" required>
+  <div class="passeord error"></div>
+
+  <button>Sign up</button>
+</form>
+
+<script> const form = document.querySelector('form');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault()
+  const email = form.email.value
+  const password = form.password
+});
+</script>
+<h1>Log in</h1>
